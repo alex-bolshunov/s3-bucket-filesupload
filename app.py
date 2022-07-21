@@ -1,4 +1,5 @@
 import boto3
+from pprint import pprint
 
 from dotenv import load_dotenv
 
@@ -10,3 +11,8 @@ OBJECT_NAME = 'hello.txt'
 load_dotenv()
 
 client = boto3.client('s3', endpoint_url=ENDPOINT_URL)
+
+# client.put_object(Bucket = BUCKET_NAME, Key = OBJECT_NAME, Body = 'hello'.encode()) #putting an object into a bucket
+response = client.get_object(Bucket = BUCKET_NAME, Key = OBJECT_NAME) #getting an object from a bucket 
+
+pprint(response['Body'].read().decode())
