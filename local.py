@@ -10,8 +10,3 @@ def get_all_files(path, files_only = True, exp = r'[a-zA-Z0-9_ ]*[.]'):
         all_files = list(filter(lambda file_name: re.match(exp, file_name), all_files))
         # all_files = [file_name for file_name in all_files if re.match(exp, file_name)]
     return all_files
-
-
-
-
-

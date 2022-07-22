@@ -1,6 +1,6 @@
-from aifc import Error
 import boto3
-import sys
+from aifc import Error
+from sys import argv
 from dotenv import load_dotenv
 from os import getenv
 from upload_download import push
@@ -19,7 +19,7 @@ bucket_name = getenv('BUCKET_NAME')
 client = boto3.client('s3', endpoint_url = endpoint_url)
 
 #get overwrite
-overwrite =  sys.argv[1].lower() == 'true' if len(sys.argv) > 1 else False
+overwrite =  'overwrite' in argv
 
 #upoad files
 try:
