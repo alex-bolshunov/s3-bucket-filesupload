@@ -2,8 +2,7 @@ from pydoc import cli
 import boto3
 from dotenv import load_dotenv
 from os import getenv
-from upload_download import push, get_bucket_file_names, get_local_file_names, get_unique_names
-from pprint import pprint
+from upload_download import push
 
 print("Executing...")
 
@@ -24,8 +23,3 @@ status = push(path, bucket_name, client)
 
 if status: print('Files have been uploaded')
 else: print('Smth went wrong')
-
-# pprint(client.list_objects(Bucket=bucket_name))
-# print(get_bucket_file_names(bucket_name, client))
-
-

@@ -34,7 +34,6 @@ def get_unique_names(local_files, cloud_files):
 def push(path, bucket_name, client, overwrite = False):
     status = True
     local_files = get_local_file_names(path)
-
     files_to_upload = get_unique_names(local_files, get_bucket_file_names(bucket_name, client)) if not overwrite else local_files
 
     try:
