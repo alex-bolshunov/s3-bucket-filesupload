@@ -1,4 +1,4 @@
-from pydoc import cli
+from aifc import Error
 import boto3
 import sys
 from dotenv import load_dotenv
@@ -6,7 +6,6 @@ from os import getenv
 from upload_download import push
 
 print("Executing...")
-
 
 #gets credentials
 load_dotenv()
@@ -24,8 +23,8 @@ overwrite =  sys.argv[1].lower() == 'true' if len(sys.argv) > 1 else False
 
 #upoad files
 try:
-    push(path, bucket_name, client, overwrite)
-    print('Files have been uploaded')
-except: 
+    response = push(path, bucket_name, client, overwrite)
+    print(f'Operation status: {response["status"]}\nNumber of files uploaded: {response["number_of_files"]}\nFiles uploaded: {response["files_uploaded"]}')
+except Error as err:
     print('Smth went wrong')
-
+    print(err)
