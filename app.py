@@ -1,29 +1,21 @@
 import boto3
-from upload import upload_file
 from dotenv import load_dotenv
 from os import getenv
-from directory import get_all_files
-
-ENDPOINT_URL = 'https://s3.us-west-004.backblazeb2.com'
-BUCKET_NAME = 'test-for-andrei'
-
-def push(path):
-    files = get_all_files(path)
-    for file_name in files:
-        upload_file(path + '\\' + f'\\{file_name}', BUCKET_NAME, client, file_name)
-
-    return len(files) > 0
+from upload import push
 
 #gets credentials
 load_dotenv()
 
-#get path
-path = getenv('DIRECTORY_PATH') #+ '\\' + '\\test.txt'
+#get path, endpoint_url, bucket_name
+path = getenv('DIRECTORY_PATH')
+endpoint_url = getenv('ENDPOINT_URL')
+bucket_name = getenv('BUCKET_NAME')
 
-#s3 client
-client = boto3.client('s3', endpoint_url=ENDPOINT_URL)
+# s3 client
+client = boto3.client('s3', endpoint_url = endpoint_url)
 
-status = push(path)
+#upoad files
+status = push(path, bucket_name, client)
 
 if status: print('Files are uploaded')
 else: print('Smth went wrong')
