@@ -1,18 +1,29 @@
 import boto3
-from pprint import pprint
-
+from upload import upload_file
 from dotenv import load_dotenv
+from os import getenv
+from directory import get_all_files
 
 ENDPOINT_URL = 'https://s3.us-west-004.backblazeb2.com'
 BUCKET_NAME = 'test-for-andrei'
-OBJECT_NAME = 'hello.txt'
+
+def push(path):
+    files = get_all_files(path)
+    for file_name in files:
+        upload_file(path + '\\' + f'\\{file_name}', BUCKET_NAME, client, file_name)
+
+    return len(files) > 0
 
 #gets credentials
 load_dotenv()
 
+#get path
+path = getenv('DIRECTORY_PATH') #+ '\\' + '\\test.txt'
+
+#s3 client
 client = boto3.client('s3', endpoint_url=ENDPOINT_URL)
 
-# client.put_object(Bucket = BUCKET_NAME, Key = OBJECT_NAME, Body = 'hello'.encode()) #putting an object into a bucket
-response = client.get_object(Bucket = BUCKET_NAME, Key = OBJECT_NAME) #getting an object from a bucket 
+status = push(path)
 
-pprint(response['Body'].read().decode())
+if status: print('Files are uploaded')
+else: print('Smth went wrong')
